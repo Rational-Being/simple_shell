@@ -8,6 +8,9 @@ int main(void)
 	ssize_t cmd = 0;
 	size_t temp_size = 0;
 	int clear_temp;
+	pid_t child_pid = fork();
+	char *args[] = {temp, NULL};
+	int status;
 
 	while (terminal)
 	{
@@ -38,6 +41,21 @@ int main(void)
 		
 		else if (temp[cmd - 1] == '\n')
 				temp[cmd - 1] = '\0';
+
+		cmd = strok(temp, 
+		if (child_pid == -1)
+		{
+			perror("No such file or directory");
+			exit(EXIT_FAILURE);
+		}
+		if (child_pid == 0)
+		{
+			execve(temp, args, environ);
+		}
+		else
+			wait(&status);
+
+
 
 	}
 	free(temp);
