@@ -1,0 +1,33 @@
+#include "main.h"
+
+int main()
+{
+	int terminal = 1;
+	char prompt[] = "Okoro_Yusuff_Shell#";
+	char *temp = NULL;
+	ssize_t get_cmdline = 0;
+	size_t temp_size = 0;
+
+	while (terminal)
+	{
+		write(STDOUT_FILENO, prompt, strlen(prompt));
+
+		get_cmdline = getline(&temp, &temp_size, stdin);
+
+		if (get_cmdline == -1)
+		{
+			perror("Command Entered Doesn't Exist");
+		}
+		else
+			*temp = '\n';
+
+
+
+	}
+
+
+		free(temp);
+	return (0);
+}
+
+
