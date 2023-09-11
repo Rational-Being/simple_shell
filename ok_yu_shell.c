@@ -8,9 +8,10 @@ int main(void)
 	ssize_t cmd = 0;
 	size_t temp_size = 0;
 	int clear_temp;
-	pid_t child_pid = fork();
-	char *args[] = {temp, NULL};
+	pid_t child_pid;
 	int status;
+	char *args[2]; /* To hold both temp and NULL*/
+	char *token;
 
 	while (terminal)
 	{
@@ -42,7 +43,17 @@ int main(void)
 		else if (temp[cmd - 1] == '\n')
 				temp[cmd - 1] = '\0';
 
-		cmd = strok(temp, 
+		/*tokenize the input command*/
+
+		token = strtok(temp, " ");
+
+		while (token != NULL)
+		{
+			token = strtok(NULL, " ");
+		}
+
+		child_pid = fork();
+
 		if (child_pid == -1)
 		{
 			perror("No such file or directory");
@@ -50,7 +61,11 @@ int main(void)
 		}
 		if (child_pid == 0)
 		{
+			args[0] = temp;
+			args[1] = NULL;
 			execve(temp, args, environ);
+			perror("Failed to Execute Command");
+			exit(EXIT_FAILURE);
 		}
 		else
 			wait(&status);
