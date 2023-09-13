@@ -1,22 +1,83 @@
 #include "main.h"
 
+/*
+ * gui - function to display shell prompt
+ * Return: Nothing
+ */
+
+void gui()
+{
+	char prompt[] = "Okoro_Yusuff_Shell# ";
+
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, prompt, strlen(prompt));
+}
+
+/*
+ * launch_command - command that execute command
+ * @commandline: commadn passed
+ * Return: 0 on sucess
+ */
+
+int launch_command(char *commandline)
+{
+	char *token;
+	/* duplicate the command line*/
+	char *temp = strdup(commandline);
+	int arg_count = 0, status;
+	char *args[4];
+	pid_t child_pid;
+
+	if (temp == NULL)
+	{
+		perror("Failed to allocate memory");
+		return (1);
+	}
+
+	token = strtok(temp, " ");
+	while(token != NULL)
+	{
+		args[arg_count++] = token;
+		token = strtok(NULL, " ");
+	}
+	/*null terminate the args array*/
+	args[arg_count] = NULL;
+
+	child_pid = fork();
+
+	if (child_pid == -1)
+	{
+		perror("No such file or directory");
+		free(temp);
+		exit(EXIT_FAILURE);
+	}
+	else if (child_pid == 0)
+	{
+		if (execve(args[0], args, environ) == -1)
+		{
+			perror("Failed to Execute Command");
+			free(temp);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		wait(&status);
+		free(temp);
+	}
+	return (0);
+}
+
 int main(void)
 {
-	int terminal = 1;
-	char prompt[] = "Okoro_Yusuff_Shell# ";
+	int terminal = 1, clear_temp;
 	char *temp = NULL;
 	ssize_t cmd = 0;
 	size_t temp_size = 0;
-	int clear_temp;
-	pid_t child_pid;
-	int status;
-	char *args[2]; /* To hold both temp and NULL*/
-	char *token;
 
 	while (terminal)
 	{
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, prompt, strlen(prompt));
+		gui();
 
 		cmd = getline(&temp, &temp_size, stdin);
 
@@ -35,6 +96,7 @@ int main(void)
 				/* Iniatialize temp and temp_size to defualt so that the program can continue to run normally*/
 				temp = NULL;
 				temp_size = 0;
+				/*Go back to reading input*/
 				continue; 
 
 			}
@@ -42,37 +104,13 @@ int main(void)
 		
 		else if (temp[cmd - 1] == '\n')
 				temp[cmd - 1] = '\0';
-
-		/*tokenize the input command*/
-
-		token = strtok(temp, " ");
-
-		while (token != NULL)
-		{
-			token = strtok(NULL, " ");
-		}
-
-		child_pid = fork();
-
-		if (child_pid == -1)
-		{
-			perror("No such file or directory");
-			exit(EXIT_FAILURE);
-		}
-		if (child_pid == 0)
-		{
-			args[0] = temp;
-			args[1] = NULL;
-			execve(temp, args, environ);
-			perror("Failed to Execute Command");
-			exit(EXIT_FAILURE);
-		}
-		else
-			wait(&status);
-
-
-
-	}
+	
+	launch_command(temp);
+	
 	free(temp);
+	temp = NULL;
+	temp_size = 0;
+	}
+
 	return (0);
 }
