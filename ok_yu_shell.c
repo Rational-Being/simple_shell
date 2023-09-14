@@ -1,5 +1,27 @@
 #include "main.h"
 
+
+/*
+ * _getenv - function to get an environment variable
+ * @name: name of the command
+ * Return: returns null
+ */
+
+char *_getenv(const char *cmd_name)
+{
+	int i = 0;
+	size_t name_len = strlen(name);
+
+	while (environ[i] != NULL)
+	{
+		if (strncmp(environ[i], name, name_len) == 0 && environ[i][name_len] == '=')
+			return environ[i] +name_len +1;
+		i++;
+	}
+	return (NULL);
+}
+
+
 /*
  * gui - function to display shell prompt
  * Return: Nothing
@@ -43,28 +65,36 @@ int launch_command(char *commandline)
 	/*null terminate the args array*/
 	args[arg_count] = NULL;
 
-	child_pid = fork();
-
-	if (child_pid == -1)
+	if (arg_count > 0)
 	{
-		perror("No such file or directory");
-		free(temp);
-		exit(EXIT_FAILURE);
-	}
-	else if (child_pid == 0)
-	{
-		if (execve(args[0], args, environ) == -1)
-		{
-			perror("Failed to Execute Command");
-			free(temp);
-			exit(EXIT_FAILURE);
-		}
+		if (strchr(args[0], '/') != NULL)
+			{
+				child_pid = fork();
+		
+				if (child_pid == -1)
+			{
+				perror("No such file or directory");
+				free(temp);
+				exit(EXIT_FAILURE);
+			}
+			else if (child_pid == 0)
+			{	
+				if (execve(args[0], args, environ) == -1)
+				{
+					perror("Failed to Execute Command");
+					free(temp);
+					exit(EXIT_FAILURE);
+				}
+			}
+			else
+			{
+				wait(&status);
+				free(temp);
+			}
+			}
 	}
 	else
-	{
-		wait(&status);
-		free(temp);
-	}
+	
 	return (0);
 }
 
