@@ -55,7 +55,10 @@ int main(void)
 		else if (temp[cmd - 1] == '\n')
 			temp[cmd - 1] = '\0';
 	
-		launch_command(temp);
+		if (strcmp(temp, "exit") == 0 || strcmp(temp, "quit") == 0)
+			terminal = 0;
+		else
+			launch_command(temp);
 	}
 
 	free(temp);

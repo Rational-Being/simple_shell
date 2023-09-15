@@ -7,7 +7,7 @@
  * Return: 0 on success
  */
 
-int execute_if_abs_path(const char *command, char *const args [])
+int execute_if_abs_path(const char *command, char *const args[])
 {
 	int status;
 	pid_t child_pid;
@@ -45,7 +45,7 @@ int execute_if_abs_path(const char *command, char *const args [])
 int execute_search_path(const char *command, char *const args[])
 {
 	int status;
-	char *path = getenv("PATH");
+	char *path = _getenv("PATH");
 	char *path_copy = strdup(path);
 	char *path_token = strtok(path_copy, ":");
 	char command_path[1024]; /* maximum path lenght */
@@ -86,7 +86,7 @@ int execute_search_path(const char *command, char *const args[])
 				wait(&status);
 				free(path_copy);
 			}
-			free(path_copy);
+		/*	free(path_copy);*/
 			return (0);
 		}
 
