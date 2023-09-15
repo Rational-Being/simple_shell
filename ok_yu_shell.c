@@ -48,7 +48,7 @@ int main(void)
 				temp = NULL;
 				temp_size = 0;
 				/*Go back to reading input*/
-				continue;
+					continue;
 
 			}
 		}
