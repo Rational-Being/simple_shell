@@ -12,6 +12,6 @@ void gui();
 int execute_if_abs_path(const char *command, char *const args[]);
 int execute_search_path(const char *command, char *const args[]);
 int launch_command(const char *command_line);
-
+int execute_env(void);
 
 #endif

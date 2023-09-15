@@ -1,6 +1,7 @@
 #include "main.h"
 
-/* _getenv - coustom getenv function
+/**
+ * _getenv - coustom getenv function
  * @cmd_name - thename of the command
  * Return: NULL
  */
@@ -17,4 +18,26 @@ char *_getenv(const char *cmd_name)
 		i++;
 	}
 	return (NULL);
+}
+
+/**
+ * launch_env - fucntion responsible for the executing the env command
+ * the funstion will print the current environment varables
+ * Return: 0 on success
+ */
+
+int launch_env(void)
+{
+	char *env_var = *env;
+	size_t env_var_len = 0;
+
+	for (char **env = environ; *env; ++env)
+	{
+		while(env_var[env_var_len] != '\0')
+			env_var_len++;
+
+		write(STDOUT_FILENO, env_var, env_var_len);
+		write(STDOUT_FILENO, "\n", 1);
+	}
+	return 0;
 }
