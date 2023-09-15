@@ -1,8 +1,8 @@
 #include "main.h"
 
-/*
+/**
  * _getenv - coustom getenv function
- * @cmd_name - thename of the command
+ * @cmd_name: thename of the command
  * Return: NULL
  */
 
@@ -13,7 +13,8 @@ char *_getenv(const char *cmd_name)
 
 	while (environ[i] != NULL)
 	{
-		if (strncmp(environ[i], cmd_name, name_len) == 0 && environ[i][name_len] == '=')
+		if (strncmp(environ[i], cmd_name, name_len) == 0
+				&& environ[i][name_len] == '=')
 		{
 			return (environ[i] + name_len + 1);
 		}
@@ -36,12 +37,12 @@ int launch_env(void)
 
 	while (*env)
 	{
-		while(env_var[env_var_len] != '\0')
+		while (env_var[env_var_len] != '\0')
 			env_var_len++;
 
 		write(STDOUT_FILENO, env_var, env_var_len);
 		write(STDOUT_FILENO, "\n", 1);
 		env++;
 	}
-	return 0;
+	return (0);
 }
