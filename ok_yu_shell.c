@@ -20,7 +20,7 @@ void gui(void)
 
 int main(void)
 {
-	int terminal = 1, clear_temp;
+	int terminal = 1;
 	char *temp = NULL;
 	ssize_t cmd = 0;
 	size_t temp_size = 0;
@@ -31,31 +31,21 @@ int main(void)
 
 		cmd = getline(&temp, &temp_size, stdin);
 
-		if (cmd == -1)
+		if (cmd == EOF)
 		{
-			/* check if ctrl+d is pressed using feof function*/
-			if (feof(stdin))
-				break;
-
-			else
-			{
-				perror("Okoro_Yusuff Shell:  Command Entered Doesn't Exist");
-				/* print error then clear the buffer i.e. tmep */
-				while ((clear_temp = getchar()) != '\n' && clear_temp != EOF)
-					free(temp);
-				/* Iniatialize temp and temp_size to defualt so that*/
-				/*the program can continue to run normally*/
-				temp = NULL;
-				temp_size = 0;
-				/*Go back to reading input*/
-					continue;
-
-			}
+			free(temp);
+			break;
 		}
-		else if (temp[cmd - 1] == '\n')
-			temp[cmd - 1] = '\0';
+		else if (cmd == -1)
+		{
+			perror("Input Probably wrong");
+		}
+		else
+		{
+			if (temp[cmd - 1] == '\n')
+				temp[cmd - 1] = '\0';
 	
-		if (strcmp(temp, "exit") == 0 || strcmp(temp, "quit") == 0)
+		if (strcmp(temp, "exit") == 0)
 			terminal = 0;
 		else
 			launch_command(temp);
@@ -64,6 +54,8 @@ int main(void)
 	free(temp);
 	temp = NULL;
 	temp_size = 0;
+
+	}
 
 	return (0);
 }
