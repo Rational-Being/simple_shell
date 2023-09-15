@@ -127,7 +127,7 @@ int launch_command(const char *command_line)
 
 	if(arg_count > 0)
 	{
-		if (strcmp(args[0], "env") == o)
+		if (strcmp(args[0], "env") == 0)
 			launch_env();
 		if (strchr(args[0], '/') != NULL)
 			execute_if_abs_path(args[0], args);
