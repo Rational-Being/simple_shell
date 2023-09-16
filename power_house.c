@@ -69,13 +69,14 @@ int execute_search_path(const char *command, char *const args[])
 		{
 			if (child_pid == -1)
 			{
-				perror("No such file or directory");
+				print_error(args[0], "No such file or directory", __LINE__);
 				exit(EXIT_FAILURE);
 			}
 			else if (child_pid == 0)
 			{	
 				if (execve(command_path, args, environ) == -1)
 				{
+					print_error(args[0], "Failed to execute command", __LINE__);
 					perror("Failed to Execute Command");
 					free(path_copy);
 					exit(EXIT_FAILURE);
@@ -92,7 +93,8 @@ int execute_search_path(const char *command, char *const args[])
 
 		path_token = strtok(NULL, ":");
 	}
-	perror("Command not found");
+
+	print_error(args[0], "Command not found", __LINE__);
 	free(path_copy);
 
 	return (1);
@@ -132,7 +134,11 @@ int launch_command(const char *command_line)
 		if (strchr(args[0], '/') != NULL)
 			execute_if_abs_path(args[0], args);
 		else
-			execute_search_path(args[0], args);
+			if (execute_search_path(args[0], args) != 0)
+			{
+				free(temp_command);
+				exit(EXIT_FAILURE);
+			}
 	}
 
 	free(temp_command);

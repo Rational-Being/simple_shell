@@ -15,5 +15,6 @@ int launch_command(const char *command_line);
 char* _getenv(const char *cmd_name); 
 int execute_env(void);
 int launch_env(void);
+void print_error(const char *program_name, const char *message, int line_number);
 
 #endif

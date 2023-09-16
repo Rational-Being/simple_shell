@@ -7,7 +7,7 @@
 
 void gui(void)
 {
-	char prompt[] = "Okoro_Yusuff_Shell# ";
+	char prompt[] = "Yusuff_Okoro_Shell# ";
 
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, prompt, strlen(prompt));
