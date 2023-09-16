@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * execute_if_abs_path - function to execute command if it is an absolute path
+ * execute_if_abs_path - function to execute a command if it is an absolute path
  * @command: command passed
  * @args: arguments count
  * Return: 0 on success
@@ -30,47 +30,10 @@ int execute_if_abs_path(const char *command, char *const args[])
 	}
 	else
 		wait(&status);
-
+	
 	return (0);
 }
-
-/**
- * search_command_in_path - funtion to execute a command y seraching path
- * @command: command passed
- * @command_path: command's path
- * Return: 0 on sucess, 1 on error
- */
-
-int search_command_in_path(const char *command, char *command_path)
-{
-	char *path = _getenv("PATH");
-	char *path_copy = strdup(path);
-	char *path_token = strtok(path_copy, ":");
-
-	if (path_copy == NULL)
-	{
-		perror("Failed to allocate memory");
-		return (1);
-	}
-	while (path_token != NULL)
-	{
-		command_path[0] = '\0'; /* initialize an empty array */
-		strcat(command_path, path_token);
-		strcat(command_path, "/");
-		strcat(command_path, command);
-
-		if (access(command_path, X_OK) == 0)
-		{
-			free(path_copy);
-			return (0); /* command found in path */
-		}
-
-		path_token = strtok(NULL, ":");
-	}
-
-	free(path_copy);
-	return (1);
-}
+	
 
 /**
  * execute_search_path - funtion to execute a command y seraching path
@@ -79,13 +42,46 @@ int search_command_in_path(const char *command, char *command_path)
  * Return: 0 on sucess
  */
 
+int search_command_in_path(const char *command, char *command_path)
+{
+	char *path = _getenv("PATH")
+	char *path_copy = strdup(path);
+	char *path_token = strtok(path_copy, ":");
+	
+	if (path_copy == NULL)
+	{
+		perror("Failed to allocate memory");
+		return (1);
+	}
+	while(path_token != NULL)
+	{
+		command_path[0] = '\0'; /* initialize an empty array */
+		strcat(command_path, path_token);
+		strcat(command_path, "/");
+		strcat(command_path, command);
+		
+		if (access(command_path, X_OK) == 0)
+		{
+			free(path_copy);
+			return (command_path); /* command found in path */
+		}
+
+		path_token = strtok(NULL, ":");
+	}
+	
+	free(path_copy);
+	return (NULL);
+}
+
 int execute_search_path(const char *command, char *const args[])
 {
 	int status;
+	char *path_copy = NULL;
 	char command_path[1024]; /* maximum path lenght */
+	char *found_path = search_command_in_path(command, command_path);
 	pid_t child_pid = fork();
 
-	if (search_command_in_path(command, command_path) == 0)
+	if (found_path != NULL)
 	{
 		if (child_pid == -1)
 		{
@@ -93,31 +89,30 @@ int execute_search_path(const char *command, char *const args[])
 			exit(EXIT_FAILURE);
 		}
 		else if (child_pid == 0)
-		{
-			if (execve(command_path, args, environ) == -1)
+		{	
+			if (execve(found_path, args, environ) == -1)
 			{
 				print_error(args[0], "Failed to execute command", __LINE__);
-			/*	free(path_copy);*/
+				free(path_copy);
 				exit(EXIT_FAILURE);
 			}
 		}
 			else
 			{
 				wait(&status);
-				/*free(path_copy);*/
+				free(path_copy);
 			}
 			return (0);
 		}
 
 	print_error(args[0], "Command not found", __LINE__);
-/*	free(path_copy);*/
+	free(path_copy);
 	return (1);
 }
 
 /**
  * launch_command - function to execute a commnd from user input
  * @command_line: command passed by the user
- * Return: 0 on success, 1 on error
  */
 
 int launch_command(const char *command_line)
@@ -126,7 +121,7 @@ int launch_command(const char *command_line)
 	char *temp_command = strdup(command_line);
 	int arg_count = 0;
 	char *args[20];
-
+	
 	if (temp_command == NULL)
 	{
 		perror("failed to allocate memory");
@@ -139,10 +134,10 @@ int launch_command(const char *command_line)
 		args[arg_count++] = token;
 		token = strtok(NULL, " ");
 	}
-
+	
 	args[arg_count] = NULL;
 
-	if (arg_count > 0)
+	if(arg_count > 0)
 	{
 		if (strcmp(args[0], "env") == 0)
 			launch_env();

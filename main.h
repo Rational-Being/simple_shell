@@ -16,5 +16,5 @@ char* _getenv(const char *cmd_name);
 int execute_env(void);
 int launch_env(void);
 void print_error(const char *program_name, const char *message, int line_number);
-
+int search_command_in_path(const char *command, char *command_path);
 #endif
