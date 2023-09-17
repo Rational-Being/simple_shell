@@ -2,21 +2,21 @@ This a team project done by Abdul-Lateef Yusuff and Jesse Okoro
 
 In this project we will be joining hands to create a shell, a simple shell precisely
 
-####Description
+#### Description
 
 
 This is a simple custom shell implemented in C. The shell provides basic command_line interface where users can execute commands and manage processes. it supports executing both built-in commands and external prorams found in the sysytem's PATH.
 
-##To compile, use the follwoing
+## To compile, use the follwoing
 
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
-#Running
+# Running
 
 ./hsh
 
 
-##Testing
+## Testing
 
 interactive mode:
 
@@ -41,29 +41,29 @@ hsh main.c shell.c test_ls_2
 hsh main.c shell.c test_ls_2
 $
 
-##Usage
+## Usage
 
 ls - list pwd
 env: display the current shell
 exit: exit the shell
 
-##Error Handling
+## Error Handling
 
 error messages are printed to stderr
 
-##Contributing
+## Contributing
 
 contributions are welcome! Feel free to open isssuess or submit oull requests to improve this shell
 
 
-#Day One
+# Day One
 
 Creted the prompt
 handle ctrl+d
 print eroor
 some memory management
 
-#Day Two
+# Day Two
 
 Implemented the execution process by first creating child process
 But execution can only handle path as an argument with no space
