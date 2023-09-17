@@ -45,7 +45,7 @@ int search_command_in_path(const char *command, char *command_path)
 {
 	char *path = _getenv("PATH");
 	char *path_copy = _strdup(path);
-	char *path_token = strtok(path_copy, ":");
+	char *path_token = _strtok(path_copy, ":");
 
 	if (path_copy == NULL)
 	{
@@ -65,7 +65,7 @@ int search_command_in_path(const char *command, char *command_path)
 			return (0); /* command found in path */
 		}
 
-		path_token = strtok(NULL, ":");
+		path_token = _strtok(NULL, ":");
 	}
 
 	free(path_copy);
@@ -107,7 +107,7 @@ int execute_search_path(const char *command, char *const args[])
 				/*free(path_copy);*/
 			}
 			return (0);
-		}
+	}
 
 	print_error(args[0], "Command not found", __LINE__);
 /*	free(path_copy);*/
@@ -133,11 +133,11 @@ int launch_command(const char *command_line)
 		return (1);
 	}
 
-	token = strtok(temp_command, " ");
+	token = _strtok(temp_command, " ");
 	while (token != NULL)
 	{
 		args[arg_count++] = token;
-		token = strtok(NULL, " ");
+		token = _strtok(NULL, " ");
 	}
 
 	args[arg_count] = NULL;

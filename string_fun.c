@@ -24,7 +24,7 @@ int _strcmp(const char *s1, const char *s2)
  * Return: nothing
  */
 
-char *_strchar(const char *str, int c)
+char *_strchr(const char *str, int c)
 {
 	while (*str != '\0')
 	{
@@ -49,4 +49,40 @@ size_t _strlen(const char *Str)
 		len++;
 
 	return (len);
+}
+
+/**
+ * _strtok - coustom strtok funtion
+ * @str: the string to be parssed
+ * @delim: the deliminiter
+ * Return: the start of hte token
+ */
+
+char *_strtok(char *str, const char *delim)
+{
+	static char *last_str = NULL;
+	char *token_start = last_str;
+	char *token_end = last_str;
+
+	if (str != NULL)
+		last_str = str;
+
+	if (last_str == NULL || *last_str == '\0')
+		return (NULL);
+
+	token_start = last_str;
+	token_end = last_str;
+	while (*token_end != '\0')
+	{
+		if (*token_end == *delim)
+		{
+			*token_end = '\0';
+			last_str = token_end + 1;
+			return (token_start);
+		}
+		token_end++;
+	}
+
+	last_str = NULL;
+	return (token_start);
 }
