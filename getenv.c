@@ -9,11 +9,11 @@
 char *_getenv(const char *cmd_name)
 {
 	int i = 0;
-	size_t name_len = strlen(cmd_name);
+	size_t name_len = _strlen(cmd_name);
 
 	while (environ[i] != NULL)
 	{
-		if (strncmp(environ[i], cmd_name, name_len) == 0
+		if (_strncmp(environ[i], cmd_name, name_len) == 0
 				&& environ[i][name_len] == '=')
 		{
 			return (environ[i] + name_len + 1);

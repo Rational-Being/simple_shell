@@ -10,7 +10,7 @@ void gui(void)
 	char prompt[] = "Yusuff_Okoro_Shell# ";
 
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, prompt, strlen(prompt));
+		write(STDOUT_FILENO, prompt, _strlen(prompt));
 }
 
 /**
@@ -45,10 +45,7 @@ int main(void)
 			if (temp[cmd - 1] == '\n')
 				temp[cmd - 1] = '\0';
 
-		if (strcmp(temp, "exit") == 0)
-			terminal = 0;
-		else
-			launch_command(temp);
+		launch_command(temp);
 	}
 
 	free(temp);

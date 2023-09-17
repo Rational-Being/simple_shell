@@ -44,7 +44,7 @@ int execute_if_abs_path(const char *command, char *const args[])
 int search_command_in_path(const char *command, char *command_path)
 {
 	char *path = _getenv("PATH");
-	char *path_copy = strdup(path);
+	char *path_copy = _strdup(path);
 	char *path_token = strtok(path_copy, ":");
 
 	if (path_copy == NULL)
@@ -55,9 +55,9 @@ int search_command_in_path(const char *command, char *command_path)
 	while (path_token != NULL)
 	{
 		command_path[0] = '\0'; /* initialize an empty array */
-		strcat(command_path, path_token);
-		strcat(command_path, "/");
-		strcat(command_path, command);
+		_strcat(command_path, path_token);
+		_strcat(command_path, "/");
+		_strcat(command_path, command);
 
 		if (access(command_path, X_OK) == 0)
 		{
@@ -123,7 +123,7 @@ int execute_search_path(const char *command, char *const args[])
 int launch_command(const char *command_line)
 {
 	char *token;
-	char *temp_command = strdup(command_line);
+	char *temp_command = _strdup(command_line);
 	int arg_count = 0;
 	char *args[20];
 
@@ -144,9 +144,11 @@ int launch_command(const char *command_line)
 
 	if (arg_count > 0)
 	{
-		if (strcmp(args[0], "env") == 0)
+		if (_strcmp(args[0], "exit") == 0)
+			handle_exit_command(command_line);
+		else if (_strcmp(args[0], "env") == 0)
 			launch_env();
-		if (strchr(args[0], '/') != NULL)
+		else if (_strchr(args[0], '/') != NULL)
 			execute_if_abs_path(args[0], args);
 		else
 			if (execute_search_path(args[0], args) != 0)

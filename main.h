@@ -2,19 +2,27 @@
 #define MAIN_H
 
 #include <stdio.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
 extern char **environ;
-extern void free (void *__ptr) __THROW;
-void gui();
+extern void free(void *__ptr) __THROW;
+void gui(void);
 int execute_if_abs_path(const char *command, char *const args[]);
 int execute_search_path(const char *command, char *const args[]);
 int launch_command(const char *command_line);
-char* _getenv(const char *cmd_name); 
+char *_getenv(const char *cmd_name);
 int execute_env(void);
 int launch_env(void);
-void print_error(const char *program_name, const char *message, int line_number);
+void print_error(const char *cmd_line, const char *message, int line_number);
 int search_command_in_path(const char *command, char *command_path);
+void handle_exit_command(const char *command_line);
+char *_strdup(const char *str);
+size_t _strlen(const char *str);
+int _strncmp(const char *s1, const char *s2, size_t n);
+char *_strcat(char *dest, const char *src);
+int _strcmp(const char *s1, const char *s2);
+char *_strchr(const char *str, int c);
 #endif
