@@ -45,7 +45,7 @@ int main(void)
 			if (temp[cmd - 1] == '\n')
 				temp[cmd - 1] = '\0';
 
-		launch_command(temp);
+			launch_command(temp);
 	}
 
 	free(temp);

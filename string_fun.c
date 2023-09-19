@@ -18,7 +18,7 @@ int _strcmp(const char *s1, const char *s2)
 }
 
 /**
- * _strchar - custom strchr funtion
+ * _strchr - custom strchr funtion
  * @str: the string
  * @c: no of char to compare
  * Return: nothing
@@ -60,7 +60,7 @@ size_t _strlen(const char *Str)
 
 char *_strtok(char *str, const char *delim)
 {
-	static char *last_str = NULL;
+	static char *last_str;
 	char *token_start = last_str;
 	char *token_end = last_str;
 

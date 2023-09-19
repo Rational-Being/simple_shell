@@ -34,22 +34,14 @@ int launch_env(void)
 	char **env = environ;
 	char *env_var = *env;
 	size_t env_var_len = 0;
-/*	char *equal_sign = _strchr(variable, '=');
-	size_t length = equal_sign - variable;*/
 
 	while (*env)
 	{
 		while (env_var[env_var_len] != '\0')
 			env_var_len++;
-/*		if (equal_sign != NULL)
-		{
-			if (length > 0)
-			{*/
 
 		write(STDOUT_FILENO, env_var, env_var_len);
 		write(STDOUT_FILENO, "\n", 1);
-/*		write(1, env_var, _strlen(env_var));
-		write(1, "\n", 1);*/
 
 		env++;
 	}

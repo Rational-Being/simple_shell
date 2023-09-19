@@ -1,7 +1,9 @@
 ls
+qwerty
 /bin/ls
 ls -l
 /bin/ls -l
 ls -l /tmp
 /bin/ls -l /tmp
 env
+qwery

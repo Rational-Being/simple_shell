@@ -92,26 +92,29 @@ int execute_search_path(const char *command, char *const args[])
 			print_error(args[0], "No such file or directory", __LINE__);
 			exit(EXIT_FAILURE);
 		}
-		else if (child_pid == 0)
+
+		if (child_pid == 0)
 		{
 			if (execve(command_path, args, environ) == -1)
 			{
 				print_error(args[0], "Failed to execute command", __LINE__);
-			/*	free(path_copy);*/
 				exit(EXIT_FAILURE);
 			}
-		}
 			else
-			{
-				wait(&status);
-				/*free(path_copy);*/
-			}
-			return (0);
-	}
+				execve(command_path, args, environ);
+		}
+		else
+		{
+			wait(&status);
+		}
 
-	print_error(args[0], "Command not found", __LINE__);
-/*	free(path_copy);*/
-	return (1);
+		return (0);
+	}
+	else
+	{
+		print_error(args[0], "Command not found", __LINE__);
+		return (1);
+	}
 }
 
 /**
@@ -153,8 +156,10 @@ int launch_command(const char *command_line)
 		else
 			if (execute_search_path(args[0], args) != 0)
 			{
+				print_error(args[0], "Command not found", __LINE__);
 				free(temp_command);
-				exit(EXIT_FAILURE);
+				return (1);
+/*				exit(EXIT_FAILURE);*/
 			}
 	}
 
