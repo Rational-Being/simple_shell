@@ -11,6 +11,12 @@ void setenv_command(const char *command_line)
 		return;
 	}
 
+	if (temp_command == NULL)
+	{
+		perror("Fialed to allocate maemroy");
+		return;
+	}
+
 	token = _strtok(temp_command, " ");
 
 	if (token != NULL)
@@ -56,7 +62,7 @@ void unsetenv_command(const char *command_line)
 		if (token != NULL)
 		{
 			if (unsetenv(token) == -1)
-					perror("unsetenv");
+				perror("unsetenv");
 		}
 		else
 			perror("Error: Setenv");

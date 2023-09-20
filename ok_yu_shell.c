@@ -28,9 +28,7 @@ int main(void)
 	while (terminal)
 	{
 		gui();
-
 		cmd = getline(&temp, &temp_size, stdin);
-
 		if (cmd == EOF)
 		{
 			free(temp);
@@ -55,13 +53,11 @@ int main(void)
 				unsetenv_command(temp);
 			else
 				launch_command(temp);
+		}
 	}
-
 	free(temp);
 	temp = NULL;
 	temp_size = 0;
-
-	}
 
 	return (0);
 }

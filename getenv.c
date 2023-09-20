@@ -23,13 +23,27 @@ char *_getenv(const char *cmd_name)
 	return (NULL);
 }
 
+/**
+ * compare_env_variables - funtion to compare environment variables
+ * @a: first string to compare
+ * @b: second string to compare
+ * Return: strcmp
+ */
+
 int compare_env_variables(const void *a, const void *b)
 {
 	const char *env_var_a = *(const char **)a;
 	const char *env_var_b = *(const char **)b;
 
-	return _strcmp(env_var_a, env_var_b);
+	return (_strcmp(env_var_a, env_var_b));
 }
+
+
+/**
+ * launch_env - fucntion responsible for the executing the env command
+ * the funstion will print the current environment varables
+ * Return: 0 on success
+ */
 
 int launch_env(void)
 {
@@ -42,40 +56,16 @@ int launch_env(void)
 		env_variables[env_var_count++] = *env;
 	}
 
-	qsort(env_variables, env_var_count, sizeof(const char *), compare_env_variables);
+	qsort(env_variables, env_var_count, sizeof(const char *),
+			compare_env_variables);
+
 	for (i = 0; i < env_var_count; ++i)
 	{
 		write(STDOUT_FILENO, env_variables[i], _strlen(env_variables[i]));
 		write(STDOUT_FILENO, "\n", 1);
 	}
-	return 0;
-}
-
-/**
- * launch_env - fucntion responsible for the executing the env command
- * the funstion will print the current environment varables
- * Return: 0 on success
- *
-
-int launch_env(void)
-{
-	char **env = environ;
-	char *env_var = *env;
-	size_t env_var_len = 0;
-
-	while (*env)
-	{
-		while (env_var[env_var_len] != '\0')
-			env_var_len++;
-
-		write(STDOUT_FILENO, env_var, env_var_len);
-		write(STDOUT_FILENO, "\n", 1);
-
-		env++;
-	}
-
 	return (0);
-}*/
+}
 
 /**
  * print_error - custom error orinting function
