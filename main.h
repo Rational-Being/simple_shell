@@ -27,4 +27,6 @@ char *_strcat(char *dest, const char *src);
 int _strcmp(const char *s1, const char *s2);
 char *_strchr(const char *str, int c);
 char *_strtok(char *str, const char *delim);
+void setenv_command(const char *command_line);
+void unsetenv_command(const char *command_line);
 #endif
