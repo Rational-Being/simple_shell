@@ -54,10 +54,9 @@ int main(void)
 			else
 				launch_command(temp);
 		}
-	}
 	free(temp);
 	temp = NULL;
 	temp_size = 0;
-
+	}
 	return (0);
 }
