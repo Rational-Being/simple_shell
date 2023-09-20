@@ -9,7 +9,7 @@
 
 int execute_if_abs_path(const char *command, char *const args[])
 {
-	int status;
+	int status, exit_status;
 	pid_t child_pid;
 
 	child_pid = fork();
@@ -29,7 +29,21 @@ int execute_if_abs_path(const char *command, char *const args[])
 		}
 	}
 	else
+	{
 		wait(&status);
+		if (WIFEXITED(status))
+		{
+			exit_status = WEXITSTATUS(status);
+			if (exit_status != 0)
+				perror("child process exited");
+/*			else if (WIFSIGNALED(status))
+			{
+				term_signal = WTERMSIG(status);
+				perror("child process terminated with signal");
+			}*/
+		}
+	}
+					
 
 	return (0);
 }

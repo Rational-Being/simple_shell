@@ -44,7 +44,12 @@ int main(void)
 		{
 			if (temp[cmd - 1] == '\n')
 				temp[cmd - 1] = '\0';
-
+			if (_strcmp(temp, "exit") == 0)
+			{
+				free(temp);
+				break;
+			}
+			
 			launch_command(temp);
 	}
 
