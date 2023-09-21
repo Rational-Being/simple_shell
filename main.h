@@ -29,4 +29,7 @@ char *_strchr(const char *str, int c);
 char *_strtok(char *str, const char *delim);
 int setenv_command(const char *command_line);
 int unsetenv_command(const char *command_line);
+int cd_previous(void);
+int cd_home(void);
+int cd_command(const char *command_line);
 #endif

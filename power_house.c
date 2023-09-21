@@ -150,7 +150,6 @@ int launch_command(const char *command_line)
 		args[arg_count++] = token;
 		token = _strtok(NULL, " ");
 	}
-
 	args[arg_count] = NULL;
 
 	if (arg_count > 0)
@@ -159,6 +158,8 @@ int launch_command(const char *command_line)
 			handle_exit_command(command_line);
 		else if (_strcmp(args[0], "env") == 0)
 			launch_env();
+		else if (_strcmp(args[0], "cd") == 0)
+			cd_command(command_line);
 		else if (_strchr(args[0], '/') != NULL)
 			execute_if_abs_path(args[0], args);
 		else
@@ -170,7 +171,6 @@ int launch_command(const char *command_line)
 /*				exit(EXIT_FAILURE);*/
 			}
 	}
-
 	free(temp_command);
 	return (0);
 }
