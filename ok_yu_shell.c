@@ -47,9 +47,9 @@ int main(void)
 				free(temp);
 				break;
 			}
-			else if (_strncmp(temp, "setenv", 6) == 0)
+			else if (_strcmp(temp, "setenv") == 0)
 				setenv_command(temp);
-			else if (_strncmp(temp, "unsetenv", 8) == 0)
+			else if (_strcmp(temp, "unsetenv") == 0)
 				unsetenv_command(temp);
 			else
 				launch_command(temp);

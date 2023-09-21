@@ -35,12 +35,7 @@ int execute_if_abs_path(const char *command, char *const args[])
 		{
 			exit_status = WEXITSTATUS(status);
 			if (exit_status != 0)
-				perror("child process exited");
-/*			else if (WIFSIGNALED(status))
-			{
-				term_signal = WTERMSIG(status);
 				perror("child process terminated with signal");
-			}*/
 		}
 	}
 

@@ -1,74 +1,97 @@
 #include "main.h"
 
-void setenv_command(const char *command_line)
+/**
+ * setenv_command - the setenv command
+ * @command_line: command passed
+ * Return: 1 on error, 0 onsucces
+ */
+
+int setenv_command(const char *command_line)
 {
-	char *token, *value;
+	char *token, *args[20];
 	char *temp_command = _strdup(command_line);
+	int arg_count = 0;
 
 	if (temp_command == NULL)
 	{
 		perror("Fialed to allocate maemroy");
-		return;
-	}
-
-	if (temp_command == NULL)
-	{
-		perror("Fialed to allocate maemroy");
-		return;
+		return (1);
 	}
 
 	token = _strtok(temp_command, " ");
 
-	if (token != NULL)
+	while (token != NULL)
 	{
+		args[arg_count++] = token;
 		token = _strtok(NULL, " ");
-		if (token != NULL)
+	}
+
+	args[arg_count++] = NULL;
+
+	if (arg_count == 3)
+	{
+		if (setenv(args[1], args[2], 1) != 0)
 		{
-			value = strtok(NULL, " ");
-			if (value != NULL)
-			{
-				if (setenv(token, value, 1) == -1)
-					perror("setenv");
-			}
-			else
-				perror("Error: Setenv");
+			perror("setenv");
+			free(temp_command);
+			return (1);
 		}
-		else
-			perror("Error: Setenv");
 	}
 	else
+	{
 		perror("Error: Setenv");
+		free(temp_command);
+		return (1);
+	}
 
 	free(temp_command);
+	return (0);
 }
 
+/**
+ * unsetenv_command - unsetenv funtion
+ * @command_line: command passed
+ * Return: 1 on error, 0 on success
+ */
 
-void unsetenv_command(const char *command_line)
+int unsetenv_command(const char *command_line)
 {
-	char *token;
+	char *token, *args[20];
 	char *temp_command = _strdup(command_line);
+	int arg_count = 0;
 
 	if (temp_command == NULL)
 	{
 		perror("Fialed to allocate maemroy");
-		return;
+		return (1);
 	}
 
 	token = _strtok(temp_command, " ");
 
-	if (token != NULL)
+	while (token != NULL)
 	{
+		args[arg_count++] = token;
 		token = _strtok(NULL, " ");
-		if (token != NULL)
+	}
+
+	args[arg_count++] = NULL;
+
+	if (arg_count == 2)
+	{
+		if (unsetenv(args[1]) != 0)
 		{
-			if (unsetenv(token) == -1)
-				perror("unsetenv");
+			perror("unsetenv");
+			free(temp_command);
+			return (1);
 		}
-		else
-			perror("Error: Setenv");
 	}
 	else
+	{
 		perror("Error: Setenv");
+		free(temp_command);
+		return (1);
+	}
 
 	free(temp_command);
+	return (0);
 }
